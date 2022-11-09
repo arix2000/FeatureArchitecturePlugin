@@ -1,0 +1,43 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>com.architecture.plugin.FeatureArchitecturePlugin</id>
+    <name>FeatureArchitecturePlugin</name>
+    <vendor email="arkadiusz.madry.2000@gmail.com">Arkadiusz Mądry</vendor>
+    <description><![CDATA[
+    This plugin simply generates feature architecture for flutter.<br><br>
+
+    <b>How it works?</b><br>
+Select the directory where you want to create your feature architecture (If the dir is not empty then the plugin will create a parent folder for the feature).<br><br>
+Then: <b>New -> Generate Feature Architecture</b><br><br>
+Fill feature name (in CamelCase or snake_case) and decide which data sources will you want to use.<br>
+Click Ok, Architecture has been generated. <br><br>
+Example of architecture:<br>
+├── bloc<br>
+├── data<br>
+│   ├── datasources<br>
+│   │   ├── local<br>
+│   │   │   ├── test_local_data_source.dart<br>
+│   │   │   └── test_local_data_source_impl.dart<br>
+│   │   └── remote<br>
+│   │       ├── test_remote_data_source.dart<br>
+│   │       └── test_remote_data_source_impl.dart<br>
+│   ├── models<br>
+│   └── repositories<br>
+│       └── test_repository_impl.dart<br>
+├── domain<br>
+│   ├── repositories<br>
+│   │   └── test_repository.dart<br>
+│   └── usecases<br>
+└── presentation
+  ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Dart</depends>
+    <actions>
+        <action id="com.architecture.plugin.GenerateFeatureArchitectureAction"
+                class="com.architecture.plugin.GenerateFeatureArchitectureAction" text="Generate Feature Architecture"
+                description="Generates base flutter feature architecture" icon="AllIcons.Actions.AddFile">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
