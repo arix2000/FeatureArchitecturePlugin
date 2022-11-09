@@ -1,10 +1,12 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.architecture.plugin.FeatureArchitecturePlugin</id>
+    <id>com.feature.architecture</id>
     <name>FeatureArchitecturePlugin</name>
     <vendor email="arkadiusz.madry.2000@gmail.com">Arkadiusz Mądry</vendor>
     <description><![CDATA[
     This plugin simply generates feature architecture for flutter.<br><br>
+
+    <a href="https://github.com/arix2000/FeatureArchitecturePlugin">Github Page</a><br><br>
 
     <b>How it works?</b><br>
 Select the directory where you want to create your feature architecture (If the dir is not empty then the plugin will create a parent folder for the feature).<br><br>
