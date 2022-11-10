@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.feature.architecture</id>
-    <name>FeatureArchitecturePlugin</name>
+    <name>Feature Architecture Generator</name>
     <vendor email="arkadiusz.madry.2000@gmail.com">Arkadiusz Mądry</vendor>
     <description><![CDATA[
     This plugin simply generates feature architecture for flutter.<br><br>
