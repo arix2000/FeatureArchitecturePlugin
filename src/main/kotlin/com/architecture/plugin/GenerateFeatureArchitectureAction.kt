@@ -15,11 +15,14 @@ import com.architecture.plugin.models.FeatureData
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.module.ModuleManager
-import com.intellij.openapi.roots.ModuleRootManager
+import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VirtualFile
+import com.jetbrains.lang.dart.util.PubspecYamlUtil
 import org.apache.commons.io.FilenameUtils
 import java.io.File
+import java.io.FileNotFoundException
 import java.net.URL
 
 
@@ -28,9 +31,7 @@ class GenerateFeatureArchitectureAction : AnAction() {
     private lateinit var moduleName: String
 
     override fun actionPerformed(e: AnActionEvent) {
-        e.project?.let {
-            moduleName = ModuleRootManager.getInstance(ModuleManager.getInstance(it).modules[0]).module.name
-        }
+        setupModuleName(e.project)
 
         val dialog = InputFeatureInfoDialog()
         if (!dialog.showAndGet())
@@ -45,6 +46,19 @@ class GenerateFeatureArchitectureAction : AnAction() {
         File(path).mkdir()
         createDirectoriesArchitecture(path, inputData.createDataSourcesEnum)
         createDartFiles(path, inputData)
+    }
+
+    private fun setupModuleName(project: Project?) {
+        try {
+            project?.let {
+                val projectDir = it.guessProjectDir() ?: throw FileNotFoundException("Can't find project directory")
+                val pubspecYamlFile = PubspecYamlUtil.findPubspecYamlFile(it, projectDir)
+                    ?: throw FileNotFoundException("Can't find pubspec.yaml in project base directory")
+                moduleName = PubspecYamlUtil.getDartProjectName(pubspecYamlFile).toString()
+            }
+        } catch (e: FileNotFoundException) {
+          thisLogger().error(e.message)
+        }
     }
 
     private fun getCurrentDirectory(event: AnActionEvent): String {
@@ -107,8 +121,7 @@ class GenerateFeatureArchitectureAction : AnAction() {
                 createDartFileFrom(dataSourceImplTemplate, inputData.name + "_local", getLocalDirectoryPath(path))
             }
 
-            NONE -> { /*Do nothing*/
-            }
+            NONE -> { /*Do nothing*/ }
         }
     }
 }
